@@ -55,6 +55,16 @@ class TestPluginStream(unittest.TestCase):
         self.assertEqual(stream.url, url)
         self.assertDictHas(params, stream.args)
 
+    def _test_mms(self, surl, url):
+        channel = self.session.resolve_url(surl)
+        streams = channel.get_streams()
+
+        self.assertTrue("live" in streams)
+
+        stream = streams["live"]
+        self.assertTrue(isinstance(stream, MMSStream))
+        self.assertEqual(stream.url, url)
+
     def test_plugin(self):
         self._test_rtmp("rtmp://hostname.se/stream",
                          "rtmp://hostname.se/stream", dict())
@@ -86,6 +96,8 @@ class TestPluginStream(unittest.TestCase):
         self._test_http("httpstream://https://hostname.se/auth.php verify=False params={'key': 'a value'}",
                        "https://hostname.se/auth.php?key=a+value", dict(verify=False, params=dict(key='a value')))
 
+        self._test_mms("mms://hostname.se/mmsstream",
+                       "mms://hostname.se/mmsstream")
 
 
 
