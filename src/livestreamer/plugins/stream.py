@@ -56,8 +56,7 @@ class StreamURL(Plugin):
         urlnoproto = re.match("^\w+://(.+)", url).group(1)
 
         # Prepend http:// if needed.
-        if cls != RTMPStream and cls != MMSStream
-        and not re.match("^http(s)?://", urlnoproto):
+        if cls != RTMPStream and cls != MMSStream and not re.match("^http(s)?://", urlnoproto):
             urlnoproto = "http://{0}".format(urlnoproto)
 
         params = (" ").join(split[1:])
