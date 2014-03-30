@@ -238,7 +238,7 @@ Livestreamer currently supports these protocols:
 +-------------------------------+-----------------------------------------------+
 | Progressive HTTP, HTTPS, etc  | httpstream://                                 |
 +-------------------------------+-----------------------------------------------+
-| Microsoft Media Server (MMS)  | mms:// mmst://
+| Microsoft Media Server (MMS)  | mms:// mmst://                                |
 +-------------------------------+-----------------------------------------------+
 
 
