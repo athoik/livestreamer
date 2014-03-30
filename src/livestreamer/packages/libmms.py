@@ -73,7 +73,7 @@ class MMS:
 
     def __init__(self, url, bandwidth=1000000):
         "Connect to the given URL, prefering the given bandwidth."
-        self.mms = libmms.mmsx_connect(None, None, url, bandwidth)
+        self.mms = libmms.mmsx_connect(None, None, url.encode("utf-8"), bandwidth)
         if not self.mms:
             raise MMSError("libmms connection error")
 
