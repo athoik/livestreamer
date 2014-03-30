@@ -2,7 +2,7 @@ from livestreamer.compat import urlparse
 from livestreamer.exceptions import PluginError
 from livestreamer.plugin import Plugin
 from livestreamer.stream import (AkamaiHDStream, HDSStream, HLSStream,
-                                 HTTPStream, RTMPStream)
+                                 HTTPStream, MMSStream, RTMPStream)
 
 import ast
 import re
@@ -13,6 +13,8 @@ PROTOCOL_MAP = {
     "hls": HLSStream,
     "hlsvariant": HLSStream.parse_variant_playlist,
     "httpstream": HTTPStream,
+    "mms": MMSStream,
+    "mmsh": MMSStream,
     "rtmp": RTMPStream,
     "rtmpe": RTMPStream,
     "rtmps": RTMPStream,
@@ -54,7 +56,8 @@ class StreamURL(Plugin):
         urlnoproto = re.match("^\w+://(.+)", url).group(1)
 
         # Prepend http:// if needed.
-        if cls != RTMPStream and not re.match("^http(s)?://", urlnoproto):
+        if cls != RTMPStream and cls != MMSStream
+        and not re.match("^http(s)?://", urlnoproto):
             urlnoproto = "http://{0}".format(urlnoproto)
 
         params = (" ").join(split[1:])
@@ -75,6 +78,8 @@ class StreamURL(Plugin):
                 raise PluginError(err)
 
             return streams
+        elif cls == MMSStream:
+            stream = cls(self.session, url)
         else:
             stream = cls(self.session, urlnoproto, **params)
 
